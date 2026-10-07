@@ -109,7 +109,8 @@
         body: new URLSearchParams(data).toString()
       })
         .then(function (res) {
-          if (res.status === 404) {
+          var type = res.headers.get("Content-Type") || "";
+          if (res.status === 404 || type.indexOf("json") === -1) {
             throw new Error("no-backend");
           }
           return res.json().then(function (payload) {
